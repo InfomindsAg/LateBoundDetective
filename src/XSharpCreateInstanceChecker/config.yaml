@@ -1,2 +1,3 @@
-SolutionPath: C:\Projects\XSharp\IOS\IOS.sln
-OutputPath: c:\Projects\CSharp\XSharpCreateInstanceChecker\output\ios
+SolutionPath: C:\Projects\XSharp\Radix\Radix.sln
+OutputPath: c:\Projects\CSharp\XSharpCreateInstanceChecker\output\Radix
+LibrarySolutionPath: C:\Projects\XSharp\AcsLib\AcsLib.sln
