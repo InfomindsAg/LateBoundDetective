@@ -13,6 +13,7 @@ using static LanguageService.CodeAnalysis.XSharp.SyntaxParser.XSharpParser;
 
 namespace XSharpSafeCreateInstanceAnalzyer.analysis
 {
+
     public class SafeCreateInstanceAnalysis : IAnalysis<SafeCreateInstanceInfo>
     {
         private readonly ParserHelper _parser;

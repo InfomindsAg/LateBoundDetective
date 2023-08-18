@@ -1,70 +1,51 @@
-﻿using Microsoft.Build.Construction;
-using Microsoft.Build.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using XSharpSafeCreateInstanceAnalzyer.models;
+﻿using System.Xml.Linq;
+using XSharp.VsParser.Helpers.ClassHierarchy;
+using XSharp.VsParser.Helpers.Extensions;
+using XSharp.VsParser.Helpers.Parser;
+using XSharp.VsParser.Helpers.Project;
+using XSharpSafeCreateInstanceAnalzyer.analysis;
 
-namespace XSharpSafeCreateInstanceAnalzyer.analyzer
+namespace XSharpSafeCreateInstanceAnalzyer.analyzer;
+
+public class SolutionAnalyzer
 {
-    public class SolutionAnalyzer
+    private readonly ClassHierarchy ClassHierarchy;
+
+    private readonly string SolutionPath;
+
+    public SolutionAnalyzer(string solutionPath, ClassHierarchy classHierarchy)
     {
-        private const string ProjectExtension = ".xsproj";
+        SolutionPath = solutionPath;
+        ClassHierarchy = classHierarchy;
+    }
 
-        public string SolutionPath { get; }
 
-        public SolutionAnalyzer(string solutionPath)
+    public void Analyze()
+    {
+        var projectFiles = new SolutionLoader().GetProjectFiles(SolutionPath);
+        foreach (var projectFile in projectFiles)
+            AnalyzeProject(projectFile);
+    }
+
+    void AnalyzeProject(string projectPath)
+    {
+        Console.WriteLine($"Analyzing Project {projectPath}");
+        var projectHelper = new ProjectHelper(projectPath);
+        var parser = ParserHelper.BuildWithOptionsList(projectHelper.GetOptions());
+
+        var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(ClassHierarchy, projectPath);
+
+        foreach (var sourceFile in projectHelper.GetSourceFiles(true))
         {
-            SolutionPath = solutionPath;
-        }
-
-        private string[] GetProjectFiles(string solutionPath)
-        {
-            var solutionFile = SolutionFile.Parse(solutionPath);
-
-            return solutionFile.ProjectsInOrder
-                .Select(x => x.AbsolutePath)
-                .Where(x => x.EndsWith(ProjectExtension, StringComparison.OrdinalIgnoreCase))
-                .ToArray();
-        }
-
-        public Analysis Analyze()
-        {
-            var projectFiles = GetProjectFiles(SolutionPath);
-
-            var analysis = new Analysis()
+            var sourceCode = File.ReadAllText(sourceFile);
+            var result = parser.ParseText(sourceCode, sourceFile);
+            if (!result.OK)
             {
-                SafeCreateInstanceInfos = new List<SafeCreateInstanceInfo>(),
-                GetRegServerRealInfos = new List<GetRegServerRealInfo>(),
-            };
-
-            var sCIList = new List<SafeCreateInstanceInfo>();
-            var gRSRList = new List<GetRegServerRealInfo>();
-
-            foreach (var projectFile in projectFiles)
-            {
-                //Analyze Projects siehe SonarAnalyzer Solution
-                var projectAnalyzer = new ProjectAnalyzer(projectFile);
-                Console.WriteLine("Analyzing " + projectFile);
-                var result = projectAnalyzer.Anaylze();
-
-                sCIList.AddRange(result.SafeCreateInstanceInfos);
-                gRSRList.AddRange(result.GetRegServerRealInfos);
+                Console.WriteLine($"Parse Error: {sourceFile}");
+                continue;
             }
 
-            return new()
-            {
-                SafeCreateInstanceInfos = sCIList,
-                GetRegServerRealInfos = gRSRList,
-            };
+            safeCreateInstanceAnalyzer.Execute(sourceFile, parser.Tree);
         }
-
-
-
     }
 }
