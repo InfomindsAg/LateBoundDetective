@@ -27,6 +27,14 @@ public class SolutionAnalyzer
             AnalyzeProject(projectFile);
     }
 
+    bool IsDesignerGenerated(string filePath)
+    {
+        var nameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
+        var designerFilePath = Path.Combine(Path.GetDirectoryName(filePath)!, $"{nameWithoutExt}.{nameWithoutExt}.xsfrm");
+        return File.Exists(designerFilePath);
+    }
+       
+
     void AnalyzeProject(string projectPath)
     {
         Console.WriteLine($"Analyzing Project {projectPath}");
@@ -35,7 +43,7 @@ public class SolutionAnalyzer
 
         var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(ClassHierarchy, projectPath);
 
-        foreach (var sourceFile in projectHelper.GetSourceFiles(true))
+        foreach (var sourceFile in projectHelper.GetSourceFiles(true).Where(q => !IsDesignerGenerated(q)))
         {
             var sourceCode = File.ReadAllText(sourceFile);
             var result = parser.ParseText(sourceCode, sourceFile);
