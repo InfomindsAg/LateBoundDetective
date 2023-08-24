@@ -86,6 +86,12 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
                         shortCode += "Loc";
                     }
 
+                    if (values.Arguments.Length == 1)
+                    {
+                        msg += " with no additional arguments";
+                        shortCode += "0P";
+                    }
+
                     LogHelper.Error(filePath, StartLine, shortCode, msg);
                 }
             }

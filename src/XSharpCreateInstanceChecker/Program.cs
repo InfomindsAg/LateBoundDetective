@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System.CommandLine;
 using System.Diagnostics;
+using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
 using XSharp.VsParser.Helpers.Project;
 using XSharpCreateInstanceChecker;
@@ -19,6 +20,9 @@ namespace XSharpSafeCreateInstanceAnalzyer
 
 
             var configPath = args.ElementAtOrDefault(0) ?? configName;
+            if (!string.IsNullOrEmpty(configPath) && !configPath.EndsWithIgnoreCase(".yaml"))
+                configPath += ".yaml";
+
             if (!File.Exists(configPath))
             {
                 Log.Error($"Config file {configPath} does not exist.");

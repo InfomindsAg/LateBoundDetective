@@ -19,7 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="config.yaml">
+	  <None Update="configIos.yaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="configRadix.yaml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
