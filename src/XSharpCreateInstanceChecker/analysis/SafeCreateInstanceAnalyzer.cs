@@ -65,9 +65,10 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
             {
                 var values = methodCallContext.ToValues();
                 var name = values.NameExpression?.Name;
-                if ("SafeCreateInstance".EqualsIgnoreCase(name) || "CreateInstance".EqualsIgnoreCase(name))
+                var firstArgument = values.Arguments.FirstOrDefault()?.Value?.Trim() ?? "";
+                if (("SafeCreateInstance".EqualsIgnoreCase(name) || "CreateInstance".EqualsIgnoreCase(name)) && firstArgument.StartsWith('#'))
                 {
-                    var ClassName = values.Arguments.FirstOrDefault()?.Value.Substring(1);
+                    var ClassName = firstArgument.Substring(1);
                     var StartLine = methodCallContext.Start.Line;
 
                     var classProjectFileName = ReferenceHelper.ExtractProjectName(ClassHierarchy.GetProjectFileName(ClassName));

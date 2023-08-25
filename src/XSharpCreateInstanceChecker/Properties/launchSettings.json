@@ -11,6 +11,10 @@
     "With Radix": {
       "commandName": "Project",
       "commandLineArgs": "ConfigRadix"
+    },
+    "With AcsLib": {
+      "commandName": "Project",
+      "commandLineArgs": "ConfigAcsLib"
     }
   }
 }
