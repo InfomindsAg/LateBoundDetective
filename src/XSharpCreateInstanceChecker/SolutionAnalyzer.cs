@@ -1,11 +1,10 @@
-﻿using System.Xml.Linq;
-using XSharp.VsParser.Helpers.ClassHierarchy;
-using XSharp.VsParser.Helpers.Extensions;
+﻿using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Parser;
 using XSharp.VsParser.Helpers.Project;
-using XSharpSafeCreateInstanceAnalzyer.analysis;
+using XSharpCreateInstanceChecker.Analyzers;
+using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpSafeCreateInstanceAnalzyer.analyzer;
+namespace XSharpCreateInstanceChecker;
 
 public class SolutionAnalyzer
 {
@@ -22,7 +21,7 @@ public class SolutionAnalyzer
 
     public void Analyze()
     {
-        var projectFiles = new SolutionLoader().GetProjectFiles(SolutionPath);
+        var projectFiles = new SolutionProjectHelper().GetProjectFiles(SolutionPath);
         foreach (var projectFile in projectFiles)
             AnalyzeProject(projectFile);
     }
@@ -33,7 +32,7 @@ public class SolutionAnalyzer
         var designerFilePath = Path.Combine(Path.GetDirectoryName(filePath)!, $"{nameWithoutExt}.{nameWithoutExt}.xsfrm");
         return File.Exists(designerFilePath);
     }
-       
+
 
     void AnalyzeProject(string projectPath)
     {

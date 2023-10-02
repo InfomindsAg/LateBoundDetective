@@ -1,8 +1,7 @@
 ﻿using Serilog.Events;
 using Serilog;
-using static XSharp.VsParser.Helpers.Parser.Result;
 
-namespace XSharpCreateInstanceChecker.helpers;
+namespace XSharpCreateInstanceChecker.Helpers;
 
 public static class LogHelper
 {
