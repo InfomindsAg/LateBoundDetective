@@ -1,0 +1,24 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "With IOS": {
+      "commandName": "Project",
+      "commandLineArgs": "ConfigIos"
+    },
+    "With Radix": {
+      "commandName": "Project",
+      "commandLineArgs": "ConfigRadix"
+    },
+    "With AcsLib": {
+      "commandName": "Project",
+      "commandLineArgs": "ConfigAcsLib"
+    },
+    "With AcsLibWF": {
+      "commandName": "Project",
+      "commandLineArgs": "ConfigAcsLibWF"
+    }
+  }
+}
