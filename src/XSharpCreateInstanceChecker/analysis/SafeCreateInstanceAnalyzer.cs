@@ -32,12 +32,12 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
                 .Select(ReferenceHelper.ExtractProjectName!));
         }
 
-        (string? localVar, string? methodName) GetAssignmentLocalVarName(MethodCallContext methodCallContext)
+        (string? localVar, string? methodName, string? type) GetAssignmentLocalVarName(MethodCallContext methodCallContext)
         {
             if (methodCallContext.parent is AssignmentExpressionContext assignment)
             {
                 if (assignment.Left is not PrimaryExpressionContext primaryContext)
-                    return (null, null);
+                    return (null, null, null);
 
                 var primary = primaryContext.GetText();
 
@@ -51,12 +51,11 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
                         foreach (var localDecl in clsMethodContext.AsEnumerable().WhereType<CommonLocalDeclContext>())
                             foreach (var variable in localDecl.ToValues().Variables)
                                 if (primary.EqualsIgnoreCase(variable.Name))
-                                    return (primary, methodName);
-
+                                    return (primary, methodName, variable.Type);
                     }
                 }
             }
-            return (null, null);
+            return (null, null, null);
         }
 
         public void Execute(string filePath, AbstractSyntaxTree tree)
@@ -68,10 +67,10 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
                 var firstArgument = values.Arguments.FirstOrDefault()?.Value?.Trim() ?? "";
                 if (("SafeCreateInstance".EqualsIgnoreCase(name) || "CreateInstance".EqualsIgnoreCase(name)) && firstArgument.StartsWith('#'))
                 {
-                    var ClassName = firstArgument.Substring(1);
+                    var className = firstArgument.Substring(1);
                     var StartLine = methodCallContext.Start.Line;
 
-                    var classProjectFileName = ReferenceHelper.ExtractProjectName(ClassHierarchy.GetProjectFileName(ClassName));
+                    var classProjectFileName = ReferenceHelper.ExtractProjectName(ClassHierarchy.GetProjectFileName(className));
                     var prj = ProjectName.EqualsIgnoreCase(classProjectFileName);
                     var refs = AvailableReferences.Contains(classProjectFileName);
                     if (!(prj || refs))
@@ -79,12 +78,18 @@ namespace XSharpSafeCreateInstanceAnalzyer.analysis
 
                     var shortCode = prj ? "CrPj" : "CrRef";
                     var refTypeMsg = prj ? "project" : "referenced";
-                    var msg = $"(Safe)CreateInstance of {refTypeMsg} type \"{ClassName}\" used";
-                    var (localVar, methodName) = GetAssignmentLocalVarName(methodCallContext);
+                    var msg = $"(Safe)CreateInstance of {refTypeMsg} type \"{className}\" used";
+                    var (localVar, methodName, localVarType) = GetAssignmentLocalVarName(methodCallContext);
                     if (!string.IsNullOrEmpty(localVar))
                     {
-                        msg += $", assigned to local variable \"{localVar}\" in method \"{methodName}\"";
                         shortCode += "Loc";
+                        if (className.EqualsIgnoreCase(localVarType))
+                        {
+                            shortCode += "Typed";
+                            msg += $", assigned to local, already typed variable \"{localVar}\" in method \"{methodName}\"";
+                        }
+                        else
+                            msg += $", assigned to local variable \"{localVar}\" in method \"{methodName}\"";
                     }
 
                     if (values.Arguments.Length == 1)
