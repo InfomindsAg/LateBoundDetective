@@ -41,6 +41,7 @@ public class SolutionAnalyzer
         var parser = ParserHelper.BuildWithOptionsList(projectHelper.GetOptions());
 
         var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(ClassHierarchy, projectPath);
+        var regServerAnalyzer = new RegServerOpenAnalyzer(ClassHierarchy, projectPath);
 
         foreach (var sourceFile in projectHelper.GetSourceFiles(true).Where(q => !IsDesignerGenerated(q)))
         {
@@ -53,6 +54,7 @@ public class SolutionAnalyzer
             }
 
             safeCreateInstanceAnalyzer.Execute(sourceFile, parser.Tree);
+            regServerAnalyzer.Execute(sourceFile, parser.Tree);
         }
     }
 }
