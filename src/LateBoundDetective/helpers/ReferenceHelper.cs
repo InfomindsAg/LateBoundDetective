@@ -1,6 +1,6 @@
 ﻿using XSharp.VsParser.Helpers.Extensions;
 
-namespace XSharpCreateInstanceChecker.Helpers;
+namespace LateBoundDetective.helpers;
 
 internal static class ReferenceHelper
 {

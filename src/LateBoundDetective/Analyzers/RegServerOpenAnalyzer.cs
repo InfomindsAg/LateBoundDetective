@@ -1,10 +1,10 @@
-﻿using XSharp.VsParser.Helpers.ClassHierarchy;
+﻿using LateBoundDetective.helpers;
+using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
 using static LanguageService.CodeAnalysis.XSharp.SyntaxParser.XSharpParser;
-using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpCreateInstanceChecker.Analyzers;
+namespace LateBoundDetective.Analyzers;
 
 public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
 {

@@ -1,10 +1,10 @@
-﻿using XSharp.VsParser.Helpers.ClassHierarchy;
+﻿using LateBoundDetective.Analyzers;
+using LateBoundDetective.helpers;
+using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Parser;
 using XSharp.VsParser.Helpers.Project;
-using XSharpCreateInstanceChecker.Analyzers;
-using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpCreateInstanceChecker;
+namespace LateBoundDetective;
 
 public class SolutionAnalyzer
 {

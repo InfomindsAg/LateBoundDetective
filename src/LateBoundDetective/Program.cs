@@ -1,8 +1,8 @@
-﻿using Serilog;
+﻿using LateBoundDetective.helpers;
+using Serilog;
 using XSharp.VsParser.Helpers.Extensions;
-using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpCreateInstanceChecker
+namespace LateBoundDetective
 {
     internal class Program
     {

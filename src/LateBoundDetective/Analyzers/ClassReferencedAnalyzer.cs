@@ -1,12 +1,12 @@
 ﻿using System.Xml.Linq;
+using LateBoundDetective.helpers;
 using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
 using XSharp.VsParser.Helpers.Utilities;
-using XSharpCreateInstanceChecker.Helpers;
 using static LanguageService.CodeAnalysis.XSharp.SyntaxParser.XSharpParser;
 
-namespace XSharpCreateInstanceChecker.Analyzers;
+namespace LateBoundDetective.Analyzers;
 
 public class ClassReferencedAnalyzer
 {

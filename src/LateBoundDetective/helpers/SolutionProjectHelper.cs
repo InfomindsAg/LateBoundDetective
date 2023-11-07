@@ -1,6 +1,6 @@
 ﻿using Microsoft.Build.Construction;
 
-namespace XSharpCreateInstanceChecker.Helpers;
+namespace LateBoundDetective.helpers;
 
 public class SolutionProjectHelper
 {

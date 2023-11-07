@@ -1,7 +1,7 @@
-﻿using Serilog.Events;
-using Serilog;
+﻿using Serilog;
+using Serilog.Events;
 
-namespace XSharpCreateInstanceChecker.Helpers;
+namespace LateBoundDetective.helpers;
 
 public static class LogHelper
 {
