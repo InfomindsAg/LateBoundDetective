@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using LateBoundDetective.Analyzers;
+using Serilog;
 using Serilog.Events;
 
 namespace LateBoundDetective.helpers;
@@ -27,9 +28,12 @@ public static class LogHelper
 
         Log.Logger = loggerconfig.CreateLogger();
     }
-    public static void Error(string filePath, int line, string shortCode, string message)
-    {
-        Log.Error("{filename}({line},1): {shortcode}: {message}", filePath, line, shortCode, message);
 
+    public static void Error(string filePath, int line, string shortCode, string message) => Log.Error("{filename}({line},1): {shortcode}: {message}", filePath, line, shortCode, message);
+
+    public static void Error(AnalyzerFileResult analyzerFileResult)
+    {
+        foreach (var item in analyzerFileResult.Items)
+            Error(analyzerFileResult.FilePath, item.Line, item.ShortCode, item.Message);
     }
 }

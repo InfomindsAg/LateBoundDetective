@@ -33,7 +33,7 @@ namespace LateBoundDetective
 
             var classHierachy = ClassHistoryLoader.Load(new[] { config.SolutionPath, config.LibrarySolutionPath }, Path.Combine(config.OutputPath, "ClassHierarchy.cache"));
 
-            var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy);
+            var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy, config.OutputPath);
             solutionAnalyzer.Analyze();
         }
 

@@ -1,5 +1,6 @@
 ﻿using LateBoundDetective.Analyzers;
 using LateBoundDetective.helpers;
+using XSharp.VsParser.Helpers.Cache;
 using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Parser;
 using XSharp.VsParser.Helpers.Project;
@@ -8,20 +9,23 @@ namespace LateBoundDetective;
 
 public class SolutionAnalyzer
 {
-    private readonly ClassHierarchy ClassHierarchy;
+    private readonly ClassHierarchy _classHierarchy;
 
-    private readonly string SolutionPath;
+    private readonly string _solutionPath;
 
-    public SolutionAnalyzer(string solutionPath, ClassHierarchy classHierarchy)
+    private readonly CacheHelper _cacheHelper;
+
+    public SolutionAnalyzer(string solutionPath, ClassHierarchy classHierarchy, string outputPath)
     {
-        SolutionPath = solutionPath;
-        ClassHierarchy = classHierarchy;
+        _solutionPath = solutionPath;
+        _classHierarchy = classHierarchy;
+        _cacheHelper = new CacheHelper(Path.Combine(outputPath, "SolutionAnalyzer.cache"), "1");
     }
 
 
     public void Analyze()
     {
-        var projectFiles = new SolutionProjectHelper().GetProjectFiles(SolutionPath);
+        var projectFiles = new SolutionProjectHelper().GetProjectFiles(_solutionPath);
         foreach (var projectFile in projectFiles)
             AnalyzeProject(projectFile);
     }
@@ -29,7 +33,8 @@ public class SolutionAnalyzer
     bool IsDesignerGenerated(string filePath)
     {
         var nameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
-        var designerFilePath = Path.Combine(Path.GetDirectoryName(filePath)!, $"{nameWithoutExt}.{nameWithoutExt}.xsfrm");
+        var designerFilePath =
+            Path.Combine(Path.GetDirectoryName(filePath)!, $"{nameWithoutExt}.{nameWithoutExt}.xsfrm");
         return File.Exists(designerFilePath);
     }
 
@@ -40,21 +45,29 @@ public class SolutionAnalyzer
         var projectHelper = new ProjectHelper(projectPath);
         var parser = ParserHelper.BuildWithOptionsList(projectHelper.GetOptions());
 
-        var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(ClassHierarchy, projectPath);
-        var regServerAnalyzer = new RegServerOpenAnalyzer(ClassHierarchy, projectPath);
+        var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(_classHierarchy, projectPath);
+        var regServerAnalyzer = new RegServerOpenAnalyzer(_classHierarchy, projectPath);
 
         foreach (var sourceFile in projectHelper.GetSourceFiles(true).Where(q => !IsDesignerGenerated(q)))
         {
             var sourceCode = File.ReadAllText(sourceFile);
-            var result = parser.ParseText(sourceCode, sourceFile);
-            if (!result.OK)
+            if (!_cacheHelper.TryGetValue(sourceFile, sourceCode, out AnalyzerFileResult analyzerFileResult))
             {
-                Console.WriteLine($"Parse Error: {sourceFile}");
-                continue;
+                var result = parser.ParseText(sourceCode, sourceFile);
+                if (!result.OK)
+                {
+                    Console.WriteLine($"Parse Error: {sourceFile}");
+                    continue;
+                }
+
+                analyzerFileResult = new() { FilePath = sourceFile };
+                safeCreateInstanceAnalyzer.Execute(sourceFile, parser.Tree, analyzerFileResult);
+                regServerAnalyzer.Execute(sourceFile, parser.Tree, analyzerFileResult);
+                
+                _cacheHelper.Add(sourceFile, sourceCode, analyzerFileResult);
             }
 
-            safeCreateInstanceAnalyzer.Execute(sourceFile, parser.Tree);
-            regServerAnalyzer.Execute(sourceFile, parser.Tree);
+            LogHelper.Error(analyzerFileResult);
         }
     }
 }

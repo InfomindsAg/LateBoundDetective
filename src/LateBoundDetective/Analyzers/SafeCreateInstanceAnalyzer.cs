@@ -11,7 +11,7 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
     public SafeCreateInstanceAnalyzer(ClassHierarchy classHierarchy, string projectPath) : base(classHierarchy, projectPath)
     { }
 
-    public void Execute(string filePath, AbstractSyntaxTree tree)
+    public void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
     {
         foreach (var methodCallContext in tree.WhereType<MethodCallContext>())
         {
@@ -33,7 +33,7 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
                     shortCode += "0P";
                 }
 
-                LogHelper.Error(filePath, methodCallContext.Start.Line, shortCode, msg);
+                result.Items.Add(new() { Line = methodCallContext.Start.Line, ShortCode = shortCode, Message = msg});
             }
         }
     }
