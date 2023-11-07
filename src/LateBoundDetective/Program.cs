@@ -1,8 +1,8 @@
-﻿using Serilog;
+﻿using LateBoundDetective.helpers;
+using Serilog;
 using XSharp.VsParser.Helpers.Extensions;
-using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpCreateInstanceChecker
+namespace LateBoundDetective
 {
     internal class Program
     {
@@ -33,7 +33,7 @@ namespace XSharpCreateInstanceChecker
 
             var classHierachy = ClassHistoryLoader.Load(new[] { config.SolutionPath, config.LibrarySolutionPath }, Path.Combine(config.OutputPath, "ClassHierarchy.cache"));
 
-            var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy);
+            var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy, config.OutputPath);
             solutionAnalyzer.Analyze();
         }
 

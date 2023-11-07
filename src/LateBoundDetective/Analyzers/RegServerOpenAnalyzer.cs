@@ -1,10 +1,10 @@
-﻿using XSharp.VsParser.Helpers.ClassHierarchy;
+﻿using LateBoundDetective.helpers;
+using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
 using static LanguageService.CodeAnalysis.XSharp.SyntaxParser.XSharpParser;
-using XSharpCreateInstanceChecker.Helpers;
 
-namespace XSharpCreateInstanceChecker.Analyzers;
+namespace LateBoundDetective.Analyzers;
 
 public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
 {
@@ -13,7 +13,7 @@ public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
     { }
 
 
-    public void Execute(string filePath, AbstractSyntaxTree tree)
+    public void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
     {
         foreach (var methodCallContext in tree.WhereType<MethodCallContext>())
         {
@@ -33,6 +33,7 @@ public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
                 msg = $"GetRegServer Open with {msg}";
 
                 LogHelper.Error(filePath, methodCallContext.Start.Line, shortCode, msg);
+                result.Items.Add(new() { Line = methodCallContext.Start.Line, ShortCode = shortCode, Message = msg});
             }
         }
     }

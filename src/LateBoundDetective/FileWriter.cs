@@ -1,4 +1,4 @@
-﻿namespace XSharpCreateInstanceChecker
+﻿namespace LateBoundDetective
 {
     public class FileWriter
     {
