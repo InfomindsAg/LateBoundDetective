@@ -32,7 +32,6 @@ public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
                 shortCode = $"Rs{shortCode}";
                 msg = $"GetRegServer Open with {msg}";
 
-                LogHelper.Error(filePath, methodCallContext.Start.Line, shortCode, msg);
                 result.Items.Add(new() { Line = methodCallContext.Start.Line, ShortCode = shortCode, Message = msg});
             }
         }
