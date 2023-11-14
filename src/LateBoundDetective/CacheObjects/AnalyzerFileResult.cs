@@ -1,4 +1,4 @@
-namespace LateBoundDetective.Analyzers;
+namespace LateBoundDetective.CacheObjects;
 
 public class AnalyzerFileResult
 {

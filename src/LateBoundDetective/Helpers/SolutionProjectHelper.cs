@@ -1,6 +1,6 @@
 ﻿using Microsoft.Build.Construction;
 
-namespace LateBoundDetective.helpers;
+namespace LateBoundDetective.Helpers;
 
 public class SolutionProjectHelper
 {

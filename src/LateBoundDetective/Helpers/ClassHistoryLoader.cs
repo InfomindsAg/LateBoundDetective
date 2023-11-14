@@ -1,6 +1,6 @@
 ﻿using XSharp.VsParser.Helpers.ClassHierarchy;
 
-namespace LateBoundDetective.helpers;
+namespace LateBoundDetective.Helpers;
 
 public class ClassHistoryLoader
 {
