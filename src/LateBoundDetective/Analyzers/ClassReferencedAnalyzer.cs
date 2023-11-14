@@ -1,5 +1,5 @@
 ﻿using System.Xml.Linq;
-using LateBoundDetective.helpers;
+using LateBoundDetective.Helpers;
 using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
@@ -12,7 +12,7 @@ public class ClassReferencedAnalyzer
 {
     private readonly ClassHierarchy ClassHierarchy;
     private readonly string ProjectName;
-    private readonly NameHashset AvailableReferences;
+    private readonly NameHashset AvailableReferences = new();
 
     static (string? localVar, string? methodName, string? type) GetAssignmentLocalVarName(MethodCallContext methodCallContext)
     {
@@ -45,16 +45,7 @@ public class ClassReferencedAnalyzer
         ClassHierarchy = classHierarchy;
         ProjectName = ReferenceHelper.ExtractProjectName(projectPath);
 
-        AvailableReferences = new();
-
-        var root = XDocument.Load(projectPath).Root!;
-        var tagNames = new string[] { "Reference", "ProjectReference" };
-
-        AvailableReferences = new NameHashset(root.Descendants()
-            .Where(p => tagNames.Contains(p.Name.LocalName))
-            .Select(q => q.Attribute("Include")?.Value)
-            .Where(q => !string.IsNullOrEmpty(q))
-            .Select(ReferenceHelper.ExtractProjectName!));
+        AvailableReferences = ReferenceHelper.GetReferences(projectPath); 
     }
 
     protected (bool isReferenced, string shortCode, string msg) IsClassNameAvailableAsTyped(MethodCallContext methodCallContext, string className)

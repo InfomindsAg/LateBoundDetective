@@ -1,4 +1,4 @@
-﻿using LateBoundDetective.helpers;
+﻿using LateBoundDetective.Helpers;
 using Serilog;
 using XSharp.VsParser.Helpers.Extensions;
 
@@ -33,7 +33,7 @@ namespace LateBoundDetective
 
             var classHierachy = ClassHistoryLoader.Load(new[] { config.SolutionPath, config.LibrarySolutionPath }, Path.Combine(config.OutputPath, "ClassHierarchy.cache"));
 
-            var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy, config.OutputPath);
+            using var solutionAnalyzer = new SolutionAnalyzer(config.SolutionPath, classHierachy, config.OutputPath);
             solutionAnalyzer.Analyze();
         }
 

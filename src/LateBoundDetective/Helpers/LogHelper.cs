@@ -1,8 +1,9 @@
 ﻿using LateBoundDetective.Analyzers;
+using LateBoundDetective.CacheObjects;
 using Serilog;
 using Serilog.Events;
 
-namespace LateBoundDetective.helpers;
+namespace LateBoundDetective.Helpers;
 
 public static class LogHelper
 {

@@ -1,4 +1,5 @@
-﻿using LateBoundDetective.helpers;
+﻿using LateBoundDetective.CacheObjects;
+using LateBoundDetective.Helpers;
 using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
@@ -25,14 +26,14 @@ public class RegServerOpenAnalyzer : ClassReferencedAnalyzer
             var classNameArgument = values.Arguments.ElementAtOrDefault(1)?.Value?.Trim() ?? "";
             if (("GetRegServer".EqualsIgnoreCase(accessExpression) || "GetRegServerReal".EqualsIgnoreCase(accessExpression)) && classNameArgument.StartsWith('#'))
             {
-                var (isRefernced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, classNameArgument);
-                if (!isRefernced)
+                var (isReferenced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, classNameArgument);
+                if (!isReferenced)
                     continue;
 
                 shortCode = $"Rs{shortCode}";
                 msg = $"GetRegServer Open with {msg}";
 
-                result.Items.Add(new() { Line = methodCallContext.Start.Line, ShortCode = shortCode, Message = msg});
+                result.Items.Add(new AnalyzerFileResultItem { Line = methodCallContext.Start.Line, ShortCode = shortCode, Message = msg});
             }
         }
     }

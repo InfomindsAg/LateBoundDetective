@@ -1,4 +1,5 @@
-﻿using LateBoundDetective.helpers;
+﻿using LateBoundDetective.CacheObjects;
+using LateBoundDetective.Helpers;
 using XSharp.VsParser.Helpers.ClassHierarchy;
 using XSharp.VsParser.Helpers.Extensions;
 using XSharp.VsParser.Helpers.Parser;
