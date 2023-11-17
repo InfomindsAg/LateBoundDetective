@@ -21,8 +21,8 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
             var firstArgument = values.Arguments.FirstOrDefault()?.Value?.Trim() ?? "";
             if (("SafeCreateInstance".EqualsIgnoreCase(name) || "CreateInstance".EqualsIgnoreCase(name)) && firstArgument.StartsWith('#'))
             {
-                var (isRefernced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, firstArgument);
-                if (!isRefernced)
+                var (isReferenced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, firstArgument);
+                if (!isReferenced)
                     continue;
 
                 shortCode = $"Cr{shortCode}";
