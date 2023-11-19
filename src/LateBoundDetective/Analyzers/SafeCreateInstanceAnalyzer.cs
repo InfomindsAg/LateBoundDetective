@@ -12,7 +12,7 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
     public SafeCreateInstanceAnalyzer(ClassHierarchy classHierarchy, string projectPath) : base(classHierarchy, projectPath)
     { }
 
-    public void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
+    public override void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
     {
         foreach (var methodCallContext in tree.WhereType<MethodCallContext>())
         {
