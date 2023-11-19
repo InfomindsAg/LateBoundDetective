@@ -21,7 +21,7 @@ public class SolutionAnalyzer : IDisposable
     {
         _solutionPath = solutionPath;
         _classHierarchy = classHierarchy;
-        _cacheHelper = new CacheHelper(Path.Combine(outputPath, "SolutionAnalyzer.cache"), "2");
+        _cacheHelper = new CacheHelper(Path.Combine(outputPath, "SolutionAnalyzer.cache"), "3");
     }
 
 
@@ -61,13 +61,17 @@ public class SolutionAnalyzer : IDisposable
         var projectHelper = new ProjectHelper(projectPath);
         var parser = ParserHelper.BuildWithOptionsList(projectHelper.GetOptions());
 
-        var safeCreateInstanceAnalyzer = new SafeCreateInstanceAnalyzer(_classHierarchy, projectPath);
-        var regServerAnalyzer = new RegServerOpenAnalyzer(_classHierarchy, projectPath);
-
+        var analyzers = new IAnalyzer[]
+        {
+            new SafeCreateInstanceAnalyzer(_classHierarchy, projectPath),
+            new RegServerOpenAnalyzer(_classHierarchy, projectPath),
+            new AssignLocalObjectVarAnalyzer(_classHierarchy, projectPath),
+        };
         // Check in the cache, if the source
         var isProjectReferencesChanged = ProjectReferencesChanged(projectPath);
         if (isProjectReferencesChanged)
-            Log.Information("References in project-file {project} changed. Ignoring cached results for this project.", Path.GetFileName(projectPath));
+            Log.Information("References in project-file {project} changed. Ignoring cached results for this project.",
+                Path.GetFileName(projectPath));
         foreach (var sourceFile in projectHelper.GetSourceFiles(true).Where(q => !IsDesignerGenerated(q)))
         {
             var sourceCode = File.ReadAllText(sourceFile);
@@ -82,8 +86,8 @@ public class SolutionAnalyzer : IDisposable
                 }
 
                 analyzerFileResult = new() { FilePath = sourceFile };
-                safeCreateInstanceAnalyzer.Execute(sourceFile, parser.Tree, analyzerFileResult);
-                regServerAnalyzer.Execute(sourceFile, parser.Tree, analyzerFileResult);
+                foreach (var analyzer in analyzers)
+                    analyzer.Execute(sourceFile, parser.Tree, analyzerFileResult);
 
                 _cacheHelper.Add(sourceFile, sourceCode, analyzerFileResult);
             }

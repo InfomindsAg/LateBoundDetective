@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateBoundDetective", "src\LateBoundDetective\LateBoundDetective.csproj", "{667471B4-D74A-4A6B-9225-A41685F78080}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateBoundDetective.Tests", "LateBoundDetective.Tests\LateBoundDetective.Tests.csproj", "{F4610444-24DF-49A7-B22D-5B4D5476413F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{667471B4-D74A-4A6B-9225-A41685F78080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667471B4-D74A-4A6B-9225-A41685F78080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{667471B4-D74A-4A6B-9225-A41685F78080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4610444-24DF-49A7-B22D-5B4D5476413F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4610444-24DF-49A7-B22D-5B4D5476413F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4610444-24DF-49A7-B22D-5B4D5476413F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4610444-24DF-49A7-B22D-5B4D5476413F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

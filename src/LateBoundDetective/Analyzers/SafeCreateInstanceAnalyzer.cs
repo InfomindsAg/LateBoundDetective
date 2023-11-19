@@ -12,7 +12,7 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
     public SafeCreateInstanceAnalyzer(ClassHierarchy classHierarchy, string projectPath) : base(classHierarchy, projectPath)
     { }
 
-    public void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
+    public override void Execute(string filePath, AbstractSyntaxTree tree, AnalyzerFileResult result)
     {
         foreach (var methodCallContext in tree.WhereType<MethodCallContext>())
         {
@@ -21,8 +21,8 @@ public class SafeCreateInstanceAnalyzer : ClassReferencedAnalyzer
             var firstArgument = values.Arguments.FirstOrDefault()?.Value?.Trim() ?? "";
             if (("SafeCreateInstance".EqualsIgnoreCase(name) || "CreateInstance".EqualsIgnoreCase(name)) && firstArgument.StartsWith('#'))
             {
-                var (isRefernced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, firstArgument);
-                if (!isRefernced)
+                var (isReferenced, shortCode, msg) = IsClassNameAvailableAsTyped(methodCallContext, firstArgument);
+                if (!isReferenced)
                     continue;
 
                 shortCode = $"Cr{shortCode}";
