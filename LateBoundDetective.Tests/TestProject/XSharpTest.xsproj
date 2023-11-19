@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(XSharpMsBuildDir)\XSharp.Default.props" />
+  <PropertyGroup>
+    <ProjectGuid>090cda65-5a51-4aaa-ba1a-893f9bf608f1</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XSharpTests</RootNamespace>
+    <AssemblyName>XSharpTests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Name>XSharpTest</Name>
+    <Nologo>true</Nologo>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <Dialect>VO</Dialect>
+    <OutputName>XSharpTests</OutputName>
+    <XSharpProjectversion>2.13.0.4</XSharpProjectversion>
+    <StartupObject />
+    <Prefer32Bit>False</Prefer32Bit>
+    <VulcanCompatibleResources>False</VulcanCompatibleResources>
+    <AZ>False</AZ>
+    <CS>False</CS>
+    <LB>True</LB>
+    <OVF>True</OVF>
+    <Unsafe>True</Unsafe>
+    <INS>True</INS>
+    <NS>False</NS>
+    <VO1>False</VO1>
+    <VO2>True</VO2>
+    <VO3>True</VO3>
+    <VO4>False</VO4>
+    <VO5>False</VO5>
+    <VO6>True</VO6>
+    <VO7>True</VO7>
+    <VO8>True</VO8>
+    <VO9>False</VO9>
+    <VO10>True</VO10>
+    <VO11>False</VO11>
+    <VO12>False</VO12>
+    <VO13>True</VO13>
+    <VO14>True</VO14>
+    <VO15>False</VO15>
+    <VO16>False</VO16>
+    <VOCompatibleImplicitRetvals>false</VOCompatibleImplicitRetvals>
+    <VOCompatibleArithmeticConversions>false</VOCompatibleArithmeticConversions>
+    <UseDefaultNamespace>false</UseDefaultNamespace>
+    <XSharpProjectversion>2.8.2.13</XSharpProjectversion>
+    <NoStandardDefs>false</NoStandardDefs>
+    <EnforceSelf>True</EnforceSelf>
+    <Allowdot>True</Allowdot>
+    <EnforceVirtual>True</EnforceVirtual>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" Label="Configuration">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <EmitDebugInformation>true</EmitDebugInformation>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>5</WarningLevel>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <WarningsAsErrors />
+    <CommandLineOption>
+    </CommandLineOption>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" Label="Configuration">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <EmitDebugInformation>false</EmitDebugInformation>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(XSharpMsBuildDir)\XSharp.targets" />
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Microsoft.CSharp</Name>
+      <AssemblyName>Microsoft.CSharp.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>System.Drawing.dll</AssemblyName>
+    </Reference>
+    <Reference Include="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Windows.Forms</Name>
+      <AssemblyName>System.Windows.Forms.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Xml</Name>
+      <AssemblyName>System.Xml.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Xml.Linq</Name>
+      <AssemblyName>System.Xml.Linq.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="XSharp.Core" />
+    <Reference Include="XSharp.RT" />
+    <Reference Include="XSharp.VO" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.prg">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+    </ProjectCapabilities>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <RunPostBuildEvent />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <RunPostBuildEvent />
+  </PropertyGroup>
+</Project>
