@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\LateBoundDetective\LateBoundDetective.csproj" />
+      <ProjectReference Include="..\LateBoundDetective\LateBoundDetective.csproj" />
     </ItemGroup>
 
     <ItemGroup>
