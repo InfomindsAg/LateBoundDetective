@@ -11,7 +11,7 @@ public class ClassHistoryLoader
 
         foreach (var solutionPath in solutionPaths.Where(q => !string.IsNullOrWhiteSpace(q)))
         {
-            foreach (var projectPath in solutionLoader.GetProjectFiles(solutionPath!))
+            foreach (var projectPath in SolutionProjectHelper.GetProjectFiles(solutionPath!))
             {
                 Console.WriteLine($"Extracting class hierachy for project {projectPath}");
                 result.AnalyzeProject(projectPath);

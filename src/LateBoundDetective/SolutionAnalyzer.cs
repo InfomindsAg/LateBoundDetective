@@ -27,7 +27,7 @@ public class SolutionAnalyzer : IDisposable
 
     public void Analyze()
     {
-        var projectFiles = new SolutionProjectHelper().GetProjectFiles(_solutionPath);
+        var projectFiles = SolutionProjectHelper.GetProjectFiles(_solutionPath);
         foreach (var projectFile in projectFiles)
             AnalyzeProject(projectFile);
     }
@@ -99,5 +99,6 @@ public class SolutionAnalyzer : IDisposable
     public void Dispose()
     {
         _cacheHelper.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

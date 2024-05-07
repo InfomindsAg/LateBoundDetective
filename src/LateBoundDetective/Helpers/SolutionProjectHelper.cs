@@ -6,7 +6,7 @@ public class SolutionProjectHelper
 {
     private const string ProjectExtension = ".xsproj";
 
-    public string[] GetProjectFiles(string solutionPath)
+    public static string[] GetProjectFiles(string solutionPath)
     {
         var solutionFile = SolutionFile.Parse(solutionPath);
 
